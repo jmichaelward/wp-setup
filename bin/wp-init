@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+
+# @TODO Keep this - uncomment when script is complete.
+#if [ ! -f  "$(dirname $0)/wp" ];
+#then
+#    echo We can\'t seem to locate WP-CLI. Are you sure it\'s installed?
+#    exit 1
+#fi
+
+# Attempt to create the database using the running MySQL instance.
+function wpsetup_attempt_db_install() {
+    mysqladmin -u $DB_USER -p$DB_PASS status &> /dev/null
+
+    if [ $? == 0 ];
+    then
+        wp db create
+    fi
+}
+
+echo "Setting up WordPress..."
+
+# Install the latest version of WordPress.
+wp core download
+
+# Interactively create the wp-config.php file.
+echo "Attempting to create the wp-config.php file.\n"
+echo "Enter your database username [ENTER for 'root']: "
+read DB_USER
+
+if [ -z $DB_USER ];
+then
+    DB_USER=root
+fi
+
+echo "Enter your database password [ENTER for 'root']: "
+read DB_PASS
+
+if [ -z $DB_PASS ];
+then
+    DB_PASS=root
+fi
+
+CURRENT_DIR=${PWD##*/}
+echo "Enter the name of your database [ENTER for $CURRENT_DIR]: "
+read DB_NAME
+
+if [ -z $DB_NAME ];
+then
+    DB_NAME=$CURRENT_DIR
+fi
+
+echo "Enter your database host [ENTER for localhost]: "
+read DB_HOST
+
+if [ -z $DB_HOST ];
+then
+    DB_HOST=localhost
+fi
+
+wp config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME} --dbhost=${DB_HOST} --skip-check
+
+wpsetup_attempt_db_install $DB_USER $DB_PASS
+
+
+echo "WordPress is now ready for installation. We just need a few more details.\n"
+echo "What URL should we use? [ENTER for $CURRENT_DIR.localhost]: "
+read WP_URL
+
+if [ -z $WP_URL ];
+then
+    WP_URL=$CURRENT_DIR.localhost
+fi
+
+echo "Give this site a title. You can change this later in the admin: "
+read WP_TITLE
+
+if [ -z "$WP_TITLE" ];
+then
+    WP_TITLE="UNTITLED SITE"
+fi
+
+echo "Please enter a username for the admin user [ENTER for wpadmin]: "
+read WP_ADMIN_USER
+
+if [ -z $WP_ADMIN_USER ];
+then
+    WP_ADMIN_USER="wpadmin"
+fi
+
+echo "Enter an e-mail address for this admin. This script will fail if nothing is entered: "
+read WP_ADMIN_EMAIL
+
+if [ -z $WP_ADMIN_EMAIL ];
+then
+    echo "An e-mail address must be provided for the admin user. Please attempt to run the setup script again."
+    exit 1
+fi
+
+WP_ADMIN_PASS=$(wp core install --url="${WP_URL}" --title="${WP_TITLE}" --admin_user="${WP_ADMIN_USER}" --admin_email="${WP_ADMIN_EMAIL}")
+
+echo "Your admin password is $WP_ADMIN_PASS. Would you like to change it? [y/N]: "
+read CHANGE_WP_ADMIN_PASS | $(awk '{print tolower($0)}')
+
+if [[ $CHANGE_WP_ADMIN_PASS = "y" ]];
+then
+    echo "Enter your new password: "
+    read NEW_WP_ADMIN_PASS
+    wp user update $WP_ADMIN_USER --user_pass="${NEW_WP_ADMIN_PASS}"
+    echo "Password updated."
+fi
+
+echo "All done! You can now log in to WordPress at http://${WP_URL}/wp-admin"

@@ -1,0 +1,18 @@
+{
+    "name": "jmichaelward/wp-setup",
+    "description": "A simple script for quickly setting up a WordPress installation.",
+    "type": "library",
+    "require": {
+        "wp-cli/wp-cli": "^1.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeremy Ward",
+            "email": "jeremy.ward@webdevstudios.com"
+        }
+    ],
+    "bin": [
+        "./bin/wp-init"
+    ]
+}
