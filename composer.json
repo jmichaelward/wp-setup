@@ -2,7 +2,6 @@
     "name": "jmichaelward/wp-setup",
     "description": "A simple script for quickly setting up a WordPress installation.",
     "type": "library",
-    "minimum-stability": "dev",
     "require": {
         "wp-cli/wp-cli": "^1.5"
     },
