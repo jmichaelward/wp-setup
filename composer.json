@@ -12,11 +12,6 @@
             "email": "jeremy.ward@webdevstudios.com"
         }
     ],
-    "scripts": {
-        "post-update-cmd": [
-            "sh ./bin/wp-init"
-        ]
-    },
     "bin": [
         "./bin/wp-init"
     ]
