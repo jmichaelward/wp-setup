@@ -6,20 +6,22 @@ then
     exit 1
 fi
 
+WP_CLI="$(dirname $0)/wp"
+
 # Attempt to create the database using the running MySQL instance.
 function wpsetup_attempt_db_install() {
     mysqladmin -u $DB_USER -p$DB_PASS status &> /dev/null
 
     if [ $? == 0 ];
     then
-        ./wp db create
+        $WP_CLI db create
     fi
 }
 
 echo "Setting up WordPress..."
 
 # Install the latest version of WordPress.
-./wp core download
+$WP_CLI core download
 
 # Interactively create the wp-config.php file.
 echo "Attempting to create the wp-config.php file.\n"
@@ -56,7 +58,7 @@ then
     DB_HOST=localhost
 fi
 
-./wp config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME} --dbhost=${DB_HOST} --skip-check
+$WP_CLI config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME} --dbhost=${DB_HOST} --skip-check
 
 wpsetup_attempt_db_install $DB_USER $DB_PASS
 
@@ -95,7 +97,7 @@ then
     exit 1
 fi
 
-WP_ADMIN_PASS=$(./wp core install --url="${WP_URL}" --title="${WP_TITLE}" --admin_user="${WP_ADMIN_USER}" --admin_email="${WP_ADMIN_EMAIL}")
+WP_ADMIN_PASS=$($WP_CLI core install --url="${WP_URL}" --title="${WP_TITLE}" --admin_user="${WP_ADMIN_USER}" --admin_email="${WP_ADMIN_EMAIL}")
 
 echo "Your admin password is $WP_ADMIN_PASS. Would you like to change it? [y/N]: "
 read CHANGE_WP_ADMIN_PASS
@@ -104,7 +106,7 @@ if [[ $CHANGE_WP_ADMIN_PASS =~ [yY](es)* ]];
 then
     echo "Enter your new password: "
     read NEW_WP_ADMIN_PASS
-    ./wp user update $WP_ADMIN_USER --user_pass="${NEW_WP_ADMIN_PASS}"
+    $WP_CLI user update $WP_ADMIN_USER --user_pass="${NEW_WP_ADMIN_PASS}"
     echo "Password updated."
 fi
 
