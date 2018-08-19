@@ -13,7 +13,7 @@
         }
     ],
     "scripts": {
-        "post-install-cmd": [
+        "post-update-cmd": [
             "sh ./bin/wp-init"
         ]
     },
