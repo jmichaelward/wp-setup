@@ -3,7 +3,11 @@
     "description": "A simple script for quickly setting up a WordPress installation.",
     "type": "library",
     "require": {
-        "wp-cli/wp-cli": "^1.5"
+        "wp-cli/wp-cli": "^2",
+        "wp-cli/core-command": "^2",
+        "wp-cli/config-command": "^2",
+        "wp-cli/db-command": "^2",
+        "wp-cli/entity-command": "^2"
     },
     "license": "MIT",
     "authors": [
