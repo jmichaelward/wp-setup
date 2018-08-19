@@ -14,7 +14,7 @@
     ],
     "scripts": {
         "post-install-cmd": [
-            "./bin/wp-init"
+            "sh ./bin/wp-init"
         ]
     },
     "bin": [
