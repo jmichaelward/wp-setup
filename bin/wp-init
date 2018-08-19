@@ -24,7 +24,7 @@ echo "Setting up WordPress..."
 $WP_CLI core download
 
 # Interactively create the wp-config.php file.
-echo "Attempting to create the wp-config.php file.\n"
+echo "Attempting to create the wp-config.php file."
 echo "Enter your database username [ENTER for 'root']: "
 read DB_USER
 
@@ -63,7 +63,7 @@ $WP_CLI config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME
 wpsetup_attempt_db_install $DB_USER $DB_PASS
 
 
-echo "WordPress is now ready for installation. We just need a few more details.\n"
+echo "WordPress is now ready for installation. We just need a few more details."
 echo "What URL should we use? [ENTER for $CURRENT_DIR.localhost]: "
 read WP_URL
 
