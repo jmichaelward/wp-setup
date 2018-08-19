@@ -12,6 +12,11 @@
             "email": "jeremy.ward@webdevstudios.com"
         }
     ],
+    "scripts": {
+        "post-install-cmd": [
+            "./vendor/bin/wp-init"
+        ]
+    },
     "bin": [
         "./bin/wp-init"
     ]
