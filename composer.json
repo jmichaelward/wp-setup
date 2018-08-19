@@ -14,7 +14,7 @@
     ],
     "scripts": {
         "post-install-cmd": [
-            "./vendor/bin/wp-init"
+            "./bin/wp-init"
         ]
     },
     "bin": [
