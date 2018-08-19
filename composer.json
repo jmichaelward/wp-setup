@@ -7,7 +7,8 @@
         "wp-cli/core-command": "^2",
         "wp-cli/config-command": "^2",
         "wp-cli/db-command": "^2",
-        "wp-cli/entity-command": "^2"
+        "wp-cli/entity-command": "^2",
+        "wp-cli/extension-command": "^2"
     },
     "license": "MIT",
     "authors": [
