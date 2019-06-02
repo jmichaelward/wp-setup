@@ -123,4 +123,4 @@ fi
 echo "Activating plugins..."
 $WP_CLI plugin activate --all
 
-echo "All done! You can now log in to WordPress at http://${WP_URL}/wp-admin"
+echo "All done! You can now log in to WordPress at http://${WP_URL}/wp-admin. Enjoy!"
