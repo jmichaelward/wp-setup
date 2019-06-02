@@ -58,7 +58,7 @@ $WP_CLI config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME
 echo "Attempt to create MySQL database? [Y/n]"
 read ATTEMPT_DB_CREATE
 
-if [[ $ATTEMPT_DB_CREATE =~ [yY](es)* ]];
+if [[ $ATTEMPT_DB_CREATE =~ [yY](es)* ]] || [[ -z $ATTEMPT_DB_CREATE ]];
 then
     wpsetup_attempt_db_install $DB_USER $DB_PASS
 fi
@@ -114,7 +114,7 @@ fi
 echo "Remove default installed plugins? [Y/n]: "
 read DELETE_DEFAULT_PLUGINS
 
-if [[ $DELETE_DEFAULT_PLUGINS =~ [yY](es)* ]];
+if [[ $DELETE_DEFAULT_PLUGINS =~ [yY](es)* ]] || [[ -z $DELETE_DEFAULT_PLUGINS ]];
 then
     $WP_CLI plugin delete akismet
     $WP_CLI plugin delete hello
