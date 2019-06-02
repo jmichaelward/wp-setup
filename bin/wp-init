@@ -18,11 +18,6 @@ function wpsetup_attempt_db_install() {
     fi
 }
 
-echo "Setting up WordPress..."
-
-# Install the latest version of WordPress.
-$WP_CLI core download
-
 # Interactively create the wp-config.php file.
 echo "Attempting to create the wp-config.php file."
 echo "Enter your database username [ENTER for 'root']: "
@@ -60,7 +55,13 @@ fi
 
 $WP_CLI config create --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbname=${DB_NAME} --dbhost=${DB_HOST} --skip-check
 
-wpsetup_attempt_db_install $DB_USER $DB_PASS
+echo "Attempt to create MySQL database? [Y/n]"
+read ATTEMPT_DB_CREATE
+
+if [[ $ATTEMPT_DB_CREATE =~ [yY](es)* ]];
+then
+    wpsetup_attempt_db_install $DB_USER $DB_PASS
+fi
 
 
 echo "WordPress is now ready for installation. We just need a few more details."
@@ -110,10 +111,16 @@ then
     echo "Password updated."
 fi
 
+echo "Remove default installed plugins? [Y/n]: "
+read DELETE_DEFAULT_PLUGINS
+
+if [[ $DELETE_DEFAULT_PLUGINS =~ [yY](es)* ]];
+then
+    $WP_CLI plugin delete akismet
+    $WP_CLI plugin delete hello
+fi
+
 echo "Activating plugins..."
 $WP_CLI plugin activate --all
-
-echo "Activating base theme..."
-$WP_CLI theme activate wd_s
 
 echo "All done! You can now log in to WordPress at http://${WP_URL}/wp-admin"
