@@ -18,6 +18,18 @@ function wpsetup_attempt_db_install() {
     fi
 }
 
+if [ "$WP_CLI" ]; then
+    echo "WordPress is already installed. Bailing."
+    exit 0
+fi
+
+echo "Should we try to install WordPress? [Y/n]"
+read INSTALL_WP_QUESTION
+
+if [ $INSTALL_WP_QUESTION == 'n' ]; then
+	exit 0;
+fi
+
 # Interactively create the wp-config.php file.
 echo "Attempting to create the wp-config.php file."
 echo "Enter your database username [ENTER for 'root']: "
