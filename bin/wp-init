@@ -18,16 +18,13 @@ function wpsetup_attempt_db_install() {
     fi
 }
 
-echo "Should we try to install WordPress? [Y/n]"
-read INSTALL_WP_QUESTION
+echo "Continue with WordPress configuration? [Y/n]"
+read CONFIG_WP_ANSWER
 
-if [ $INSTALL_WP_QUESTION == 'n' ]; then
+if [[ -z "$CONFIG_WP_ANSWER" || "$CONFIG_WP_ANSWER" == 'n' ]];
+then
+	echo "All set. Enjoy!"
 	exit 0;
-fi
-
-if [ $WP_CLI ]; then
-    echo "WordPress is already installed. Bailing."
-    exit 0
 fi
 
 # Interactively create the wp-config.php file.
