@@ -18,13 +18,18 @@ function wpsetup_attempt_db_install() {
     fi
 }
 
+if [[ $("$WP_CLI core is-installed") ]];
+then
+	exit 0
+fi
+
 echo "Continue with WordPress configuration? [Y/n]"
 read CONFIG_WP_ANSWER
 
 if [[ -z "$CONFIG_WP_ANSWER" || "$CONFIG_WP_ANSWER" == 'n' ]];
 then
 	echo "All set. Enjoy!"
-	exit 0;
+	exit 0
 fi
 
 # Interactively create the wp-config.php file.
