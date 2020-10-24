@@ -18,13 +18,16 @@ function wpsetup_attempt_db_install() {
     fi
 }
 
+# Check whether core is already installed/configured.
 CORE_INSTALLED=$($WP_CLI core is-installed)
 
 if [[ $CORE_INSTALLED ]];
 then
+	echo "WordPress is already installed and configured. Bailing."
 	exit 0
 fi
 
+# Ask to proceed with configuration.
 echo "Continue with WordPress configuration? [Y/n]"
 read CONFIG_WP_ANSWER
 
@@ -77,6 +80,9 @@ read ATTEMPT_DB_CREATE
 if [[ $ATTEMPT_DB_CREATE =~ [yY](es)* ]] || [[ -z $ATTEMPT_DB_CREATE ]];
 then
     wpsetup_attempt_db_install $DB_USER $DB_PASS
+else
+	echo "Remaining configuration steps require a database. You can run 'wp db create' to create the database and install WordPress normally."
+	exit 0
 fi
 
 
