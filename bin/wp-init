@@ -20,7 +20,7 @@ function wpsetup_attempt_db_install() {
 
 CORE_INSTALLED=$($WP_CLI core is-installed)
 
-if [[ ! $? ]];
+if [[ $CORE_INSTALLED ]];
 then
 	exit 0
 fi
