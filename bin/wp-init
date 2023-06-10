@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
 
-if [ ! -f  "$(dirname $0)/wp" ];
+function locate_wpcli() {
+  WP_CLI=$(which wp)
+
+  echo $WP_CLI
+
+  if [[ -f $WP_CLI ]];
+  then
+    return 0
+  fi
+
+  WP_CLI="$(dirname $0)/wp"
+  return 0
+}
+
+locate_wpcli
+
+if [[ ! -f $WP_CLI ]];
 then
     echo We can\'t seem to locate WP-CLI. Are you sure it\'s installed?
     exit 1
 fi
-
-WP_CLI="$(dirname $0)/wp"
 
 # Attempt to create the database using the running MySQL instance.
 function wpsetup_attempt_db_install() {
